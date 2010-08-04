@@ -15,14 +15,12 @@
 
 begin
   require 'rubygems'
-  require_gem 'diff-lcs', "1.1.1"
+  require 'diff-lcs'
   require 'diff/lcs/string'
 rescue LoadError
   require 'diff/lcs'
   require 'diff/lcs/string'
 end
-
-require 'text/format'
 
 class HTMLDiff #:nodoc:
   attr_accessor :output
@@ -53,13 +51,9 @@ if ARGV.size != 2
 end
 
 hd = HTMLDiff.new($stdout)
-tf = Text::Format.new
-tf.tabstop = 4
 
-preprocess = lambda { |line| tf.expand(line.chomp) }
-
-a = IO.readlines(ARGV[0]).map(&preprocess)
-b = IO.readlines(ARGV[1]).map(&preprocess)
+a = ARGV[0]
+b = ARGV[1]
 
 $stdout.write <<-START
 <html>
